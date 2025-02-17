@@ -1,5 +1,16 @@
+h1{
+    color: rgb(110, 113, 113);
+    margin-left: 50px;
+}
+
+.container-tabela{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
 table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
   }
   th, td {
