@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dados do Bolsa Família</title>
-  <link rel="stylesheet" href="style.css">
- 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados do Bolsa Família</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Dados do Bolsa Família</h1>
-  <div class="container-tabela">
-    <table id="tabela-dados">
-    <thead>
-      <tr>
-        <th>Município</th>
-        <th>UF</th>
-        <th>Valor (R$)</th>
-        <th>Beneficiados</th>
-        <th>Mês/Ano</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Dados serão inseridos aqui via JavaScript  -->
-    </tbody>
-  </table>
-  </div>
-  
+    <h1>Dados do Bolsa Família</h1>
+    
+    <div class="container-form">
+        <div class="input-group">
+            <label for="municipio">Código IBGE:</label>
+            <input type="text" id="municipio" placeholder="Ex: 2911709 (7 dígitos)">
+        </div>
+        
+        <div class="input-group">
+            <label for="mesAno">Mês/Ano (AAAAMM):</label>
+            <input type="text" id="mesAno" placeholder="Ex: 202310">
+        </div>
 
-  <script src="script.js"></script>
+        <button onclick="consultarDados()">Consultar</button>
+    </div>
+
+    <div class="container-tabela">
+        <table id="tabela-dados">
+            <thead>
+                <tr>
+                    <th>Município</th>
+                    <th>UF</th>
+                    <th>Valor</th>
+                    <th>Beneficiados</th>
+                    <th>Mês/Ano</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dados serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,74 +1,68 @@
-// Função para consultar dados do Bolsa Família
-async function consultarBolsaFamilia(codigoIbge, mesAno) {
-    // URL da API do Portal da Transparência
-    const url = `https://api.portaldatransparencia.gov.br/api-de-dados/bolsa-familia-por-municipio?codigoIbge=${codigoIbge}&mesAno=${mesAno}&pagina=1`;
+async function consultarDados() {
+    const municipio = document.getElementById('municipio').value.trim();
+    const mesAno = document.getElementById('mesAno').value.trim();
 
-    try {
-        // Faz a requisição HTTP GET usando fetch
-        const response = await fetch(url, {
-            method: 'GET', // Método HTTP
-            headers: {
-                'chave-api-dados': 'f993995f321c2349a570c166c1345f0e', // Substitua pelo seu token
-            },
-        });
-
-        // Verifica se a resposta foi bem-sucedida
-        if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.statusText}`);
-        }
-
-        // Converte a resposta para JSON
-        const dados = await response.json();
-
-        // Retorna os dados
-        return dados;
-    } catch (error) {
-        console.error('Erro ao consultar a API:', error.message);
-        return null;
-    }
-}
-
-// Função principal para interagir com o usuário
-async function main() {
-    // Solicita as informações do usuário
-    const codigoIbge = prompt("Digite o código IBGE do município:");
-    const mesAno = prompt("Digite o mês e ano de referência (formato AAAAMM):");
-
-    // Verifica se os dados foram fornecidos
-    if (!codigoIbge || !mesAno) {
-        alert("Todos os campos são obrigatórios.");
+    if (!municipio || !mesAno) {
+        alert('Preencha todos os campos!');
         return;
     }
 
-    // Consulta os dados do Bolsa Família
-    const dadosBolsaFamilia = await consultarBolsaFamilia(codigoIbge, mesAno);
+    if (!/^\d{7}$/.test(municipio)) {
+        alert('Código IBGE inválido! 7 dígitos requeridos.');
+        return;
+    }
 
-    // Exibe os dados retornados
-    if (dadosBolsaFamilia) {
-        exibirDados(dadosBolsaFamilia);
-    } else {
-        alert("Não foi possível obter os dados.");
+    if (!/^\d{6}$/.test(mesAno)) {
+        alert('Data inválida! Formato AAAAMM requerido.');
+        return;
+    }
+
+    try {
+        const params = new URLSearchParams({
+            municipio: municipio,
+            mesAno: mesAno
+        });
+
+        const response = await fetch(`http://localhost:8000?${params}`);
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro na requisição');
+        }
+
+        const data = await response.json();
+        
+        if (data.length === 0) {
+            throw new Error('Nenhum dado encontrado');
+        }
+
+        exibirDados(data);
+
+    } catch (error) {
+        console.error('Erro:', error);
+        alert(error.message);
+        document.querySelector('#tabela-dados tbody').innerHTML = '';
     }
 }
 
-// Função para exibir os dados na tabela
 function exibirDados(dados) {
     const tbody = document.querySelector("#tabela-dados tbody");
-    tbody.innerHTML = ''; // Limpa o conteúdo existente
+    tbody.innerHTML = '';
 
     dados.forEach((item) => {
         const row = document.createElement("tr");
-
-        row.innerHTML =
-            `<td>${item.municipio}</td>
+        
+        row.innerHTML = `
+            <td>${item.municipio}</td>
             <td>${item.uf}</td>
-            <td>${item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+            <td>${item.valor.toLocaleString("pt-BR", { 
+                style: "currency", 
+                currency: "BRL" 
+            })}</td>
             <td>${item.quantidadeBeneficiados}</td>
-            <td>${item.mesAno}</td>`;
-
+            <td>${item.mesAno}</td>
+        `;
+        
         tbody.appendChild(row);
     });
 }
-
-// Executa a função principal ao carregar a página
-main();
