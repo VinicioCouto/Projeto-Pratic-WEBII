@@ -8,7 +8,7 @@ async function consultarBolsaFamilia(codigoIbge, mesAno) {
         const response = await fetch(url, {
             method: 'GET', // Método HTTP
             headers: {
-                'chave-api-dados': 'SEU_TOKEN_AQUI', // Substitua pelo seu token
+                'chave-api-dados': 'f993995f321c2349a570c166c1345f0e', // Substitua pelo seu token
             },
         });
 
