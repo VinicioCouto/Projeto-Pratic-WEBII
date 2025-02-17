@@ -46,10 +46,28 @@ async function main() {
 
     // Exibe os dados retornados
     if (dadosBolsaFamilia) {
-        console.log("Dados do Bolsa Família:", dadosBolsaFamilia);
+        exibirDados(dadosBolsaFamilia); // Alterado para chamar a nova função
     } else {
         console.log("Não foi possível obter os dados.");
     }
+}
+
+function exibirDados(dados) {
+    const tbody = document.querySelector("#tabela-dados tbody");
+    tbody.innerHTML = ''; // Limpa o conteúdo existente
+
+    dados.forEach((item) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML =
+            `<td>${item.municipio}</td>
+            <td>${item.uf}</td>
+            <td>${item.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+            <td>${item.quantidadeBeneficiados}</td>
+            <td>${item.mesAno}</td>`;
+
+        tbody.appendChild(row);
+    });
 }
 
 main();
