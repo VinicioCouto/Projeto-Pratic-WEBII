@@ -1,23 +1,64 @@
-h1{
+h1 {
     color: rgb(110, 113, 113);
     margin-left: 50px;
 }
 
-.container-tabela{
+.container-tabela {
     margin-top: 50px;
     display: flex;
     justify-content: center;
+    opacity: 0.0;
 }
 
 table {
     width: 80%;
     border-collapse: collapse;
-  }
-  th, td {
+}
+
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
-  }
-  th {
+}
+
+th {
     background-color: #f2f2f2;
-  }
+}
+
+.container-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+input {
+    width: 200px;
+    border: none;
+    padding: 10px;
+    margin-left: 10px;
+    background-color: rgb(221, 224, 224);
+    border-radius: 15px;
+    margin-right: 10px;
+}
+
+label {
+    font-size: 20px;
+}
+
+button {
+    width: 100px;
+    height: 50px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-size: 15px;
+    border-radius: 25px;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+button:hover{
+    transform: scale(1.1);
+}

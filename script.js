@@ -47,22 +47,31 @@ async function consultarDados() {
 
 function exibirDados(dados) {
     const tbody = document.querySelector("#tabela-dados tbody");
-    tbody.innerHTML = '';
+    tbody.innerHTML = ''; // Limpa o conteúdo existente
 
     dados.forEach((item) => {
         const row = document.createElement("tr");
-        
+
+        // Acessa os campos corretamente
         row.innerHTML = `
-            <td>${item.municipio}</td>
-            <td>${item.uf}</td>
+            <td>${item.municipio.nomeIBGE}</td> <!-- Nome do município -->
+            <td>${item.municipio.uf.sigla}</td> <!-- Sigla da UF -->
             <td>${item.valor.toLocaleString("pt-BR", { 
                 style: "currency", 
                 currency: "BRL" 
-            })}</td>
-            <td>${item.quantidadeBeneficiados}</td>
-            <td>${item.mesAno}</td>
+            })}</td> <!-- Valor formatado como moeda -->
+            <td>${item.quantidadeBeneficiados}</td> <!-- Quantidade de beneficiados -->
+            <td>${item.dataReferencia}</td> <!-- Data de referência -->
         `;
-        
+
+        AparecerTabela()
+
         tbody.appendChild(row);
     });
+}
+
+function AparecerTabela() {
+    const tabela = document.querySelector('.container-tabela')
+
+    tabela.style.opacity = '1.0';
 }
