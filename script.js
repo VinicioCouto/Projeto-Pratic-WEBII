@@ -1,14 +1,14 @@
 // Função para consultar dados do Bolsa Família
-async function consultarBolsaFamilia(data, municipio, valor) {
-    // URL da API (hipotética)
-    const url = `https://api.exemplo.com/bolsa-familia?data=${data}&municipio=${municipio}&valor=${valor}`;
+async function consultarBolsaFamilia(codigoIbge, mesAno) {
+    // URL da API do Portal da Transparência
+    const url = `https://api.portaldatransparencia.gov.br/api-de-dados/bolsa-familia-por-municipio?codigoIbge=${codigoIbge}&mesAno=${mesAno}&pagina=1`;
 
     try {
         // Faz a requisição HTTP GET usando fetch
         const response = await fetch(url, {
             method: 'GET', // Método HTTP
             headers: {
-                'chave-api-dados': 'f993995f321c2349a570c166c1345f0e', // Header personalizado
+                'chave-api-dados': 'SEU_TOKEN_AQUI', // Substitua pelo seu token
             },
         });
 
@@ -31,27 +31,27 @@ async function consultarBolsaFamilia(data, municipio, valor) {
 // Função principal para interagir com o usuário
 async function main() {
     // Solicita as informações do usuário
-    const data = prompt("Digite a data (formato YYYY-MM-DD):");
-    const municipio = prompt("Digite o município:");
-    const valor = prompt("Digite o valor:");
+    const codigoIbge = prompt("Digite o código IBGE do município:");
+    const mesAno = prompt("Digite o mês e ano de referência (formato AAAAMM):");
 
     // Verifica se os dados foram fornecidos
-    if (!data || !municipio || !valor) {
-        console.log("Todos os campos são obrigatórios.");
+    if (!codigoIbge || !mesAno) {
+        alert("Todos os campos são obrigatórios.");
         return;
     }
 
     // Consulta os dados do Bolsa Família
-    const dadosBolsaFamilia = await consultarBolsaFamilia(data, municipio, valor);
+    const dadosBolsaFamilia = await consultarBolsaFamilia(codigoIbge, mesAno);
 
     // Exibe os dados retornados
     if (dadosBolsaFamilia) {
-        exibirDados(dadosBolsaFamilia); // Alterado para chamar a nova função
+        exibirDados(dadosBolsaFamilia);
     } else {
-        console.log("Não foi possível obter os dados.");
+        alert("Não foi possível obter os dados.");
     }
 }
 
+// Função para exibir os dados na tabela
 function exibirDados(dados) {
     const tbody = document.querySelector("#tabela-dados tbody");
     tbody.innerHTML = ''; // Limpa o conteúdo existente
@@ -70,4 +70,5 @@ function exibirDados(dados) {
     });
 }
 
+// Executa a função principal ao carregar a página
 main();
